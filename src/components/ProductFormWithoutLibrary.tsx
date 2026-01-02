@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import { Check, Package } from "lucide-react";
+import { Check, Package, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,6 +14,8 @@ import {
 import { validateProduct, ValidationErrors } from "@/lib/productValidation";
 import { PRODUCT_CATEGORIES, Product, ProductFormData } from "@/types/product";
 import { cn } from "@/lib/utils";
+import { createProduct } from "@/lib/productApi";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductFormWithoutLibraryProps {
   onSubmit: (product: Product) => void;
@@ -36,6 +38,8 @@ export function ProductFormWithoutLibrary({
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -70,7 +74,7 @@ export function ProductFormWithoutLibrary({
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     // Validate all fields
@@ -100,16 +104,33 @@ export function ProductFormWithoutLibrary({
       imageUrl: formData.imageUrl.trim() || undefined,
     };
 
-    onSubmit(product);
-    setIsSubmitted(true);
+    setIsLoading(true);
+    
+    const response = await createProduct(product);
+    
+    setIsLoading(false);
 
-    // Reset form after showing success
-    setTimeout(() => {
-      setFormData(initialFormData);
-      setErrors({});
-      setTouched({});
-      setIsSubmitted(false);
-    }, 2000);
+    if (response.success) {
+      onSubmit(response.data || product);
+      setIsSubmitted(true);
+      toast({
+        title: "Success",
+        description: "Product created successfully!",
+      });
+
+      setTimeout(() => {
+        setFormData(initialFormData);
+        setErrors({});
+        setTouched({});
+        setIsSubmitted(false);
+      }, 2000);
+    } else {
+      toast({
+        title: "Error",
+        description: response.error || "Failed to create product",
+        variant: "destructive",
+      });
+    }
   };
 
   if (isSubmitted) {
@@ -283,8 +304,15 @@ export function ProductFormWithoutLibrary({
           )}
         </div>
 
-        <Button type="submit" className="w-full" size="lg">
-          Create Product
+        <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creating...
+            </>
+          ) : (
+            "Create Product"
+          )}
         </Button>
       </form>
     </div>
