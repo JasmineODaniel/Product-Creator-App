@@ -1,11 +1,10 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Package } from "lucide-react";
+import { Check, Package, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -23,6 +22,8 @@ import {
 } from "@/components/ui/form";
 import { productSchema, ProductFormSchema } from "@/lib/productValidation";
 import { PRODUCT_CATEGORIES, Product } from "@/types/product";
+import { createProduct } from "@/lib/productApi";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductFormWithLibraryProps {
   onSubmit: (product: Product) => void;
@@ -30,6 +31,8 @@ interface ProductFormWithLibraryProps {
 
 export function ProductFormWithLibrary({ onSubmit }: ProductFormWithLibraryProps) {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<ProductFormSchema>({
     resolver: zodResolver(productSchema),
@@ -45,7 +48,7 @@ export function ProductFormWithLibrary({ onSubmit }: ProductFormWithLibraryProps
     mode: "onBlur",
   });
 
-  const handleSubmit = (data: ProductFormSchema) => {
+  const handleSubmit = async (data: ProductFormSchema) => {
     const product: Product = {
       name: data.name.trim(),
       description: data.description.trim(),
@@ -56,14 +59,31 @@ export function ProductFormWithLibrary({ onSubmit }: ProductFormWithLibraryProps
       imageUrl: data.imageUrl?.trim() || undefined,
     };
 
-    onSubmit(product);
-    setIsSubmitted(true);
+    setIsLoading(true);
+    
+    const response = await createProduct(product);
+    
+    setIsLoading(false);
 
-    // Reset form after showing success
-    setTimeout(() => {
-      form.reset();
-      setIsSubmitted(false);
-    }, 2000);
+    if (response.success) {
+      onSubmit(response.data || product);
+      setIsSubmitted(true);
+      toast({
+        title: "Success",
+        description: "Product created successfully!",
+      });
+
+      setTimeout(() => {
+        form.reset();
+        setIsSubmitted(false);
+      }, 2000);
+    } else {
+      toast({
+        title: "Error",
+        description: response.error || "Failed to create product",
+        variant: "destructive",
+      });
+    }
   };
 
   if (isSubmitted) {
@@ -236,8 +256,15 @@ export function ProductFormWithLibrary({ onSubmit }: ProductFormWithLibraryProps
             )}
           />
 
-          <Button type="submit" className="w-full" size="lg">
-            Create Product
+          <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              "Create Product"
+            )}
           </Button>
         </form>
       </Form>
