@@ -1,7 +1,7 @@
 import { Product } from "@/types/product";
 
-// Configure your API endpoint here
-const API_BASE_URL = "https://api.example.com"; // Replace with your actual API URL
+// Fake Store API
+const API_BASE_URL = "https://fakestoreapi.com";
 
 export interface ApiResponse<T> {
   success: boolean;
