@@ -43,8 +43,8 @@ index.html           # HTML template
 1. Clone the repository:
 
 ```bash
-git clone <your-repo-url>
-cd <your-repo-folder>
+git clone https://github.com/JasmineODaniel/product-creator-studio/tree/main
+cd 
 ````
 
 2. Install dependencies:
@@ -81,17 +81,3 @@ You can test both forms:
 * React Router DOM (`react-router-dom`)
 * TanStack React Query (`@tanstack/react-query`)
 
-## License
-
-MIT License
-
-```
-
----
-
-✅ This version is **clean, easy to read**, and **ready for submission**.  
-
-If you want, I can also make an **even shorter “StackBlitz-friendly” version** that fits nicely when submitting your online IDE link.  
-
-Do you want me to do that?
-```
