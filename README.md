@@ -1,73 +1,97 @@
-# Welcome to your Lovable project
+Got it! You want a **clean `README.md` without all the `---` separators**. Here’s a polished version:
 
-## Project info
+```markdown
+# Product Creation App
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+A simple React application to create products using a REST API.  
+This project demonstrates two approaches for building forms in React:
 
-## How can I edit this code?
+1. No form library – Vanilla React form with validation  
+2. Form library version – Using React Hook Form with validation  
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- Create products with title, description, price, and category  
+- Form validation for required fields and price > 0  
+- Success and error messages on form submission  
+- API integration with [Fake Store API](https://fakestoreapi.com/)  
+- React Router setup for multiple pages (Index, NotFound)  
+- Vanilla CSS styling (no Tailwind)  
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Folder Structure
 
-Changes made via Lovable will be committed automatically to this repo.
+```
 
-**Use your preferred IDE**
+src/
+App.jsx              # Main app with routing
+ProductForm.jsx      # Vanilla React form
+ProductFormRH.jsx    # React Hook Form version
+api.js               # API helper functions
+index.css            # Styling
+index.js             # React entry point
+pages/
+Index.jsx            # Home page with product forms
+NotFound.jsx         # 404 page
+public/
+favicon.ico          # App icon
+index.html           # HTML template
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+````
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Installation
 
-Follow these steps:
+1. Clone the repository:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+git clone <your-repo-url>
+cd <your-repo-folder>
+````
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+npm install
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app will open automatically in your browser (StackBlitz does this automatically).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Usage
 
-**Use GitHub Codespaces**
+* Fill in the form fields: title, description, price, and category
+* Click Create Product
+* If successful, you will see a success message
+* If an error occurs (like missing fields), an error message will appear
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+You can test both forms:
 
-## What technologies are used for this project?
+* Vanilla form: ProductForm.jsx
+* Form library: ProductFormRH.jsx using React Hook Form
 
-This project is built with:
+## Dependencies
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+* React
+* React DOM
+* React Hook Form (`react-hook-form`)
+* React Router DOM (`react-router-dom`)
+* TanStack React Query (`@tanstack/react-query`)
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+MIT License
 
-## Can I connect a custom domain to my Lovable project?
+```
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+✅ This version is **clean, easy to read**, and **ready for submission**.  
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+If you want, I can also make an **even shorter “StackBlitz-friendly” version** that fits nicely when submitting your online IDE link.  
+
+Do you want me to do that?
+```
