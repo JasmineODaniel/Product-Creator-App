@@ -43,7 +43,7 @@ index.html           # HTML template
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/JasmineODaniel/product-creator-studio/tree/main
+git clone https://github.com/JasmineODaniel/Product-Creator-App
 cd 
 ````
 
